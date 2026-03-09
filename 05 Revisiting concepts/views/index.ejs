@@ -28,12 +28,17 @@
             <% if (files && files.length> 0) { %>
                 <% files.forEach((val)=> { %>
                     <div class="task min-w-72 px-3 py-4 rounded-md bg-zinc-800">
-                        <h1 class="text-white text-2xl tracking-lighter line-clamp-1 w-[80%]">
+                      <div class="flex items-center justify-between ">
+                          <h1 class="text-white text-2xl tracking-lighter line-clamp-1 w-[80%]">
                             <%= val %>
                         </h1>
+                       <form action="/delete/<%=val%>" method="post">
+                         <button type="submit"  class="cursor-pointer font-normal">❌</button>
+                       </form>
+                      </div>
                         <div class="flex items-center justify-between mt-3">
                             <a class="text-blue-500 inline-block" href="/file/<%= val%>">Read more..</a>
-                            <a class="text-zinc-600" href="/edit/<%= val%>">edit fileName</a>
+                            <a class="text-zinc-600" href="/edit/<%= val%>">✏️</a>
                         </div>
                     </div>
                     <% }) %>

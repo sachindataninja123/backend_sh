@@ -9,6 +9,7 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
 
+// to get a page where we create task
 app.get("/", (req, res) => {
   const filesPath = path.join(__dirname, "..", "files");
   fs.readdir(filesPath, (err, files) => {
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
   });
 });
 
+//to create task page it creates and redirect on home page
 app.post("/create", (req, res) => {
   const fileName = req.body.title.split(" ").join("") + ".txt";
   const filesPath = path.join(__dirname, "..", "files", fileName);
@@ -34,6 +36,7 @@ app.post("/create", (req, res) => {
   });
 });
 
+// to get a specific task all details
 app.get("/file/:fileName", (req, res) => {
   const fileName = req.params.fileName;
   const filesPath = path.join(__dirname, "..", "files", fileName);
@@ -47,6 +50,7 @@ app.get("/file/:fileName", (req, res) => {
   });
 });
 
+// this shows edit fileName page where we change data
 app.get("/edit/:fileName", (req, res) => {
   const fileName = req.params.fileName;
   const filesPath = path.join(__dirname, "..", "files", fileName);
@@ -60,6 +64,7 @@ app.get("/edit/:fileName", (req, res) => {
   });
 });
 
+// this api create new task Name and redirect on home page
 app.post("/edit", (req, res) => {
   const previousName = req.body.previous;
   const newName = req.body.new;
@@ -74,8 +79,21 @@ app.post("/edit", (req, res) => {
     }
     res.redirect("/");
   });
+});
 
-  fs.rename;
+// this api delete specific task by his dynamic routing
+app.post("/delete/:fileName", (req, res) => {
+  const fileName = req.params.fileName;
+
+  const filesPath = path.join(__dirname, "..", "files", fileName);
+
+  fs.unlink(filesPath, (err) => {
+    if (err) {
+      console.log("Error deleting file : ", err);
+      return res.status(500).send("Unable to delete file");
+    }
+    res.redirect("/");
+  });
 });
 
 module.exports = app;
