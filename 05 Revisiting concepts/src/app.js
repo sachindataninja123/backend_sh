@@ -38,14 +38,44 @@ app.get("/file/:fileName", (req, res) => {
   const fileName = req.params.fileName;
   const filesPath = path.join(__dirname, "..", "files", fileName);
 
-  fs.readFile(filesPath, "utf-8" , (err , fileData) => {
-    if(err) {
-      console.log("Error reading file : " , err);
-      return res.status(404).send("file not found")
-    } 
-    res.render("show" , {fileName : fileName , fileData : fileData})
-  })
- 
+  fs.readFile(filesPath, "utf-8", (err, fileData) => {
+    if (err) {
+      console.log("Error reading file : ", err);
+      return res.status(404).send("file not found");
+    }
+    res.render("show", { fileName: fileName, fileData: fileData });
+  });
+});
+
+app.get("/edit/:fileName", (req, res) => {
+  const fileName = req.params.fileName;
+  const filesPath = path.join(__dirname, "..", "files", fileName);
+
+  fs.readFile(filesPath, "utf-8", (err, filedata) => {
+    if (err) {
+      console.log("Error reading file", err);
+      return res.status(400).send("File not found");
+    }
+    res.render("edit", { fileName: fileName });
+  });
+});
+
+app.post("/edit", (req, res) => {
+  const previousName = req.body.previous;
+  const newName = req.body.new;
+
+  const oldPath = path.join(__dirname, "..", "files", previousName);
+  const newPath = path.join(__dirname, "..", "files", newName);
+
+  fs.rename(oldPath, newPath, (err, fileContent) => {
+    if (err) {
+      console.log("Error in Updating", err);
+      return res.status(404).send("fileName not updated");
+    }
+    res.redirect("/");
+  });
+
+  fs.rename;
 });
 
 module.exports = app;
