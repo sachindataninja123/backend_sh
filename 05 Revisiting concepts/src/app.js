@@ -34,4 +34,18 @@ app.post("/create", (req, res) => {
   });
 });
 
+app.get("/file/:fileName", (req, res) => {
+  const fileName = req.params.fileName;
+  const filesPath = path.join(__dirname, "..", "files", fileName);
+
+  fs.readFile(filesPath, "utf-8" , (err , fileData) => {
+    if(err) {
+      console.log("Error reading file : " , err);
+      return res.status(404).send("file not found")
+    } 
+    res.render("show" , {fileName : fileName , fileData : fileData})
+  })
+ 
+});
+
 module.exports = app;
