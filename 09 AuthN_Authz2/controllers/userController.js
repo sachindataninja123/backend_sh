@@ -26,12 +26,26 @@ const createUser = (req, res) => {
 };
 
 const loginUser = (req, res) => {
-    res.render('login')
-}
+  res.render("login");
+};
+
+const logUser = async (req, res) => {
+  const user = await userModel.findOne({ email: req.body.email });
+  if (!user) return res.send("Something went Wrong!");
+
+  bcrypt.compare(req.body.password, user.password, (err, result) => {
+    if (result) {
+      let token = jwt.sign({ email: user.email }, "shhhhhhh");
+      res.cookie("token", token);
+
+      res.send("yes you can login");
+    } else res.send("Something is wrong!");
+  });
+};
 
 const logoutUser = (req, res) => {
   res.cookie("token", "");
   res.redirect("/");
 };
 
-module.exports = { getUser, createUser, logoutUser , loginUser };
+module.exports = { getUser, createUser, logoutUser, loginUser, logUser };
