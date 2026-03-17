@@ -1,11 +1,9 @@
-const express = require("express")
+const express = require("express");
+const userRoutes = require("../routes/userRoutes");
+const app = express();
 
-const app = express()
+app.use(express.json());
 
-app.use(express.json())
+app.get("/", userRoutes);
 
-app.get('/' , (req , res) => {
-    res.send("hello")
-})
-
-module.exports = app
+module.exports = app;
