@@ -6,6 +6,12 @@ const userSchema = mongoose.Schema({
   password: String,
   age: Number,
   name: String,
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "post",
+    },
+  ],
 });
 
 const userModel = mongoose.model("user", userSchema);
