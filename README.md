@@ -64,3 +64,35 @@ This folder contains my **backend fundamentals learning journey**, where I explo
 - Combining all learned concepts  
 
 ---
+
+
+## 🛠️ Tech Stack
+
+- Node.js  
+- Express.js  
+- MongoDB  
+- Mongoose  
+- EJS  
+- Bcrypt  
+- JWT  
+
+---
+
+## 🎯 Purpose
+
+- Build strong backend fundamentals  
+- Practice real-world backend concepts  
+- Understand full CRUD + Auth flow  
+- Prepare for advanced backend projects  
+
+---
+
+## 🚀 Outcome
+
+By completing this section, I gained:
+- Solid understanding of backend basics  
+- Ability to build REST APIs  
+- Experience with authentication systems  
+- Hands-on project experience  
+
+---
