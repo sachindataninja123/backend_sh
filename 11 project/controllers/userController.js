@@ -45,6 +45,8 @@ const loginUser = async (req, res) => {
   if (!user) return res.status(500).send("something went wrong!");
 
   bcrypt.compare(password, user.password, (err, result) => {
+    let token = jwt.sign({ email: email, userid: user._id }, "shhhh");
+    res.cookie("token", token);
     if (result) res.status(200).send("You can login");
     else res.redirect("/login");
   });
@@ -55,4 +57,34 @@ const logoutUser = (req, res) => {
   res.redirect("/login");
 };
 
-module.exports = { getUsers, registerUser, loginUser, login , logoutUser };
+const isLoggedIn = (req, res, next) => {
+  const token = req.cookies.token;
+
+  // check if token exists
+  if (!token) {
+    return res.send("You must be logged in");
+  }
+
+  try {
+    const data = jwt.verify(token, "shhhh");
+    req.user = data;
+    next();
+  } catch (err) {
+    return res.send("Invalid token");
+  }
+};
+
+const profileRoute = (req, res) => {
+  console.log(req.user);
+  res.render("login");
+};
+
+module.exports = {
+  getUsers,
+  registerUser,
+  loginUser,
+  login,
+  logoutUser,
+  profileRoute,
+  isLoggedIn,
+};
