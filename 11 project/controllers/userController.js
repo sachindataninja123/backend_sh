@@ -83,6 +83,20 @@ const profileRoute = async (req, res) => {
   res.render("profile", { user });
 };
 
+const likeCount = async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+  // console.log(req.params.id);
+  // console.log(req.user)
+
+  if (post.likes.indexOf(req.user.userid) === -1) {
+    post.likes.push(req.user.userid);
+  } else {
+    post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+  }
+  await post.save();
+  res.redirect("/profile");
+};
+
 const getprofile = (req, res) => {
   res.render("profile");
 };
@@ -110,4 +124,5 @@ module.exports = {
   isLoggedIn,
   getprofile,
   createPost,
+  likeCount,
 };

@@ -8,7 +8,8 @@ const {
   profileRoute,
   isLoggedIn,
   getprofile,
-  createPost
+  createPost,
+  likeCount,
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.get("/profile", isLoggedIn, profileRoute);
 router.get("/profile", getprofile);
 
 router.post("/post", isLoggedIn, createPost);
+
+router.get("/like/:id", isLoggedIn, likeCount);
 
 module.exports = router;
