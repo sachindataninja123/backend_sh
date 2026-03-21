@@ -1,4 +1,5 @@
 const userModel = require("../model/userModel");
+const postModel = require("../model/postModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -75,13 +76,28 @@ const isLoggedIn = (req, res, next) => {
 };
 
 const profileRoute = async (req, res) => {
-  let user = await userModel.findOne({ email: req.user.email });
-  console.log(user);
-  res.render("profile" , {user});
+  let user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("posts");
+
+  res.render("profile", { user });
 };
 
 const getprofile = (req, res) => {
   res.render("profile");
+};
+
+const createPost = async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+  const { content } = req.body;
+
+  let post = await postModel.create({
+    user: user._id,
+    content,
+  });
+  user.posts.push(post._id);
+  await user.save();
+  res.redirect("/profile");
 };
 
 module.exports = {
@@ -93,4 +109,5 @@ module.exports = {
   profileRoute,
   isLoggedIn,
   getprofile,
+  createPost,
 };
