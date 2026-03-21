@@ -7,6 +7,7 @@ const {
   logoutUser,
   profileRoute,
   isLoggedIn,
+  getprofile,
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.get("/login", login);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 
-router.get("/profile", isLoggedIn ,profileRoute )
+router.get("/profile", isLoggedIn, profileRoute);
+router.get("/profile", getprofile);
 
 module.exports = router;

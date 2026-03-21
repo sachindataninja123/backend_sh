@@ -47,7 +47,7 @@ const loginUser = async (req, res) => {
   bcrypt.compare(password, user.password, (err, result) => {
     let token = jwt.sign({ email: email, userid: user._id }, "shhhh");
     res.cookie("token", token);
-    if (result) res.status(200).send("You can login");
+    if (result) res.status(200).redirect("/profile");
     else res.redirect("/login");
   });
 };
@@ -62,7 +62,7 @@ const isLoggedIn = (req, res, next) => {
 
   // check if token exists
   if (!token) {
-    return res.send("You must be logged in");
+    return res.redirect("/login");
   }
 
   try {
@@ -74,9 +74,14 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-const profileRoute = (req, res) => {
-  console.log(req.user);
-  res.render("login");
+const profileRoute = async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+  console.log(user);
+  res.render("profile" , {user});
+};
+
+const getprofile = (req, res) => {
+  res.render("profile");
 };
 
 module.exports = {
@@ -87,4 +92,5 @@ module.exports = {
   logoutUser,
   profileRoute,
   isLoggedIn,
+  getprofile,
 };
