@@ -97,6 +97,18 @@ const likeCount = async (req, res) => {
   res.redirect("/profile");
 };
 
+const editPost = async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+
+  res.render("edit", { post });
+};
+
+const updatePost = async (req, res) => {
+  let post = await postModel.findOneAndUpdate({ _id: req.params.id} , {content : req.body.content} );
+
+  res.redirect("/profile");
+};
+
 const getprofile = (req, res) => {
   res.render("profile");
 };
@@ -125,4 +137,6 @@ module.exports = {
   getprofile,
   createPost,
   likeCount,
+  editPost,
+  updatePost
 };

@@ -10,6 +10,8 @@ const {
   getprofile,
   createPost,
   likeCount,
+  editPost,
+  updatePost,
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -25,5 +27,9 @@ router.get("/profile", getprofile);
 router.post("/post", isLoggedIn, createPost);
 
 router.get("/like/:id", isLoggedIn, likeCount);
+
+router.get("/edit/:id", isLoggedIn, editPost);
+
+router.post("/update/:id", isLoggedIn, updatePost);
 
 module.exports = router;
