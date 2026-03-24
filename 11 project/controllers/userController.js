@@ -104,7 +104,10 @@ const editPost = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
-  let post = await postModel.findOneAndUpdate({ _id: req.params.id} , {content : req.body.content} );
+  let post = await postModel.findOneAndUpdate(
+    { _id: req.params.id },
+    { content: req.body.content },
+  );
 
   res.redirect("/profile");
 };
@@ -126,6 +129,17 @@ const createPost = async (req, res) => {
   res.redirect("/profile");
 };
 
+const uploadProfile = (req, res) => {
+  res.render("profileupload");
+};
+
+const uploadPicture = async (req, res) => {
+  const user = await userModel.findOne({ email: req.user.email });
+  user.profilepic = req.file.filename;
+  await user.save();
+  res.redirect("/profile");
+};
+
 module.exports = {
   getUsers,
   registerUser,
@@ -138,5 +152,7 @@ module.exports = {
   createPost,
   likeCount,
   editPost,
-  updatePost
+  updatePost,
+  uploadProfile,
+  uploadPicture,
 };
