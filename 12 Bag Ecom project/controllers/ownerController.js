@@ -1,4 +1,5 @@
 const ownerModel = require("../models/owners.model");
+const bcrypt = require("bcrypt");
 
 const createOwner = async (req, res) => {
   try {
@@ -22,10 +23,14 @@ const createOwner = async (req, res) => {
       });
     }
 
+    const genSalt = await bcrypt.genSalt(10);
+
+    const hashPassword = await bcrypt.hash(password, genSalt);
+
     const user = await ownerModel.create({
       fullName,
       email,
-      password,
+      password: hashPassword,
     });
 
     return res.status(200).json({
@@ -33,7 +38,6 @@ const createOwner = async (req, res) => {
       error: false,
       user: user,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
