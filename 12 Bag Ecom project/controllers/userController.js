@@ -28,7 +28,7 @@ const createuser = async (req, res) => {
 
     // hash password
     const hashPassword = await bcrypt.hash(password, genSalt);
-    console.log(hashPassword);
+    // console.log(hashPassword);
 
     let createdUser = await userModel.create({
       fullName,
